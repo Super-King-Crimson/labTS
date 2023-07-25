@@ -29,7 +29,7 @@ class Hamming {
 
         let [iC, jC, kC, lC, total] = [0, 0, 0, 0, 0];
         let newFrom: boolean[] = [true];
-        
+
 
         //the 0 bit isn't counted by anything (0b0000 won't pass any checks) so don't even loop through it
         for (let i = 0b0001; i <= 0b1111; i++) {
@@ -42,15 +42,15 @@ class Hamming {
                 if (getBit(i, 0) === 1) {
                     iC++;
                 }
-                
+
                 if (getBit(i, 1) === 1) {
                     jC++;
-                } 
-                
+                }
+
                 if (getBit(i, 2) === 1) {
                     kC++;
-                } 
-                
+                }
+
                 if (getBit(i, 3) === 1) {
                     lC++;
                 }
@@ -61,7 +61,7 @@ class Hamming {
         //if its sector's parity (ignoring itself) is already odd then set to 0
 
         //it doesn't matter if we add or subtract to total, as all we care about is if its even or odd
-        if (isOdd(iC)) { 
+        if (isOdd(iC)) {
             newFrom[0b0001] = !newFrom[0b0001];
             total++;
         }
@@ -130,15 +130,15 @@ class Hamming {
                 if ((i & 0b0001) === 0b0001) {
                     counts[0]++;
                 }
-                
+
                 if ((i & 0b0010) === 0b0010) {
                     counts[1]++;
-                } 
-                
+                }
+
                 if ((i & 0b0100) === 0b0100) {
                     counts[2]++;
-                } 
-                
+                }
+
                 if ((i & 0b1000) === 0b1000) {
                     counts[3]++;
                 }
@@ -152,7 +152,7 @@ class Hamming {
         let [iC, jC, kC, lC, totalC] = this.count();
 
         let [inStripes, inLast, inBands, inBottom, inAny] = [isOdd(iC), isOdd(jC), isOdd(kC), isOdd(lC), isOdd(totalC)];
-        
+
         let location = 0b0000;
 
         if (inStripes) {
@@ -172,7 +172,7 @@ class Hamming {
         }
 
         //if an error wasn't detected
-        if (location === 0b0000) { 
+        if (location === 0b0000) {
             //make sure the 0 bit is still ok
             if (inAny) {
                 this.bits[0b0000] = !this.bits[0b0000];

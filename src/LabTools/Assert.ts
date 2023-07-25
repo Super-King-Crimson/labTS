@@ -10,8 +10,8 @@ export class AssertionError extends Error {
 
 export function assert(expression: boolean) {
     if (!expression) {
-        throw new AssertionError("Assertion failed: " +
-        "condition evaluated to false");
+        throw new AssertionError("Assertion failed: \
+            condition evaluated to false");
     }
 }
 
@@ -23,8 +23,8 @@ export function assert(expression: boolean) {
  */
 export function eq(val1: any, val2: any) {
     if (val1 !== val2) {
-        throw new AssertionError(`Assertion failed: ` +
-        `${val1} !== ${val2}`);
+        throw new AssertionError(`Assertion failed: \
+            ${val1} !== ${val2}`);
     }
 }
 
@@ -35,8 +35,8 @@ export function eq(val1: any, val2: any) {
  */
 export function ne(val1: any, val2: any) {
     if (val1 === val2) {
-        throw new AssertionError(`Assertion failed: ` +
-        `${val1} === ${val2}`);
+        throw new AssertionError(`Assertion failed: \
+            ${val1} === ${val2}`);
     }
 }
 
@@ -64,16 +64,16 @@ export function ne(val1: any, val2: any) {
 export function willThrow(fn: (...vals: any) => any, pat?: string) {
     try {
         fn();
-    } catch(e: any) {
-        let msg: string = e.message;
+    } catch (e) {
+        if (e instanceof Error) {
+            let msg: string = e.message;
 
-        if (pat) {
-            if (!msg.includes(pat)) {
+            if (pat && msg.includes(pat) === false) {
                 throw new AssertionError(`Assertion failed: error did not contain ${pat}`);
             }
-        }
 
-        return;
+            return;
+        }
     }
 
     throw new AssertionError(`Assertion failed: error was not thrown by closure`);
