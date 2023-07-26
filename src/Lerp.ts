@@ -33,21 +33,19 @@ export function lerpN(a: number, b: number, t: number, n: number): number {
     let posA = 0;
     let posB = 20;
     let speed = 10; //this can now be assigned actual units AND a range: percent per second, [0, 100)
-    someObj.position = lerpN(posA, posB, speed, deltaTime)
+    someObj.position = lerpN(posA, posB, speed, deltaTime);
     
     actually to make this function work with actual vector3s in unity all you need to do is:
-    -create a vector from pointB pointing to pointA
-        Vector3 between = (posA - posB).Normalize();
-    - create new start position for the lerp
-        Vector3 newPosA = posB + (between * Vector3.Distance(posA, posB) * Mathf.pow(1 - t, n))
+    - get newRange (vector from B to A) of the lerp
+        Vector3 newRange = (posA - posB) * Mathf.pow(1 - t, n))
 
-    //do the lerp
-        return Vector3.Lerp(
-            newPosA,
-            posB,
+    - do the lerp between zero vector and range,
+      then add A to put it in range
+        return posA + Vector3.Lerp(
+            Vector3.zero,
+            newRange,
             t
         )
-    - add
             
     */
 }
