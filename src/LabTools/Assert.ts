@@ -10,8 +10,7 @@ export class AssertionError extends Error {
 
 export function assert(expression: boolean) {
     if (!expression) {
-        throw new AssertionError("Assertion failed: \
-            condition evaluated to false");
+        throw new AssertionError("Assertion failed: condition evaluated to false");
     }
 }
 
@@ -23,20 +22,18 @@ export function assert(expression: boolean) {
  */
 export function eq(val1: any, val2: any) {
     if (val1 !== val2) {
-        throw new AssertionError(`Assertion failed: \
-            ${val1} !== ${val2}`);
+        throw new AssertionError(`Assertion failed: ${val1} !== ${val2}`);
     }
 }
 
 /**
- * Tests if `val1` strictly equals (`===`) `val2`, throwing an Error if it does.
+ * Checks if `val1` strictly equals (`===`) `val2`, throwing an Error if it does.
  * 
  * Don't worry, nobody uses != anyways.
  */
 export function ne(val1: any, val2: any) {
     if (val1 === val2) {
-        throw new AssertionError(`Assertion failed: \
-            ${val1} === ${val2}`);
+        throw new AssertionError(`Assertion failed: ${val1} === ${val2}`);
     }
 }
 
@@ -77,4 +74,27 @@ export function willThrow(fn: (...vals: any) => any, pat?: string) {
     }
 
     throw new AssertionError(`Assertion failed: error was not thrown by closure`);
+}
+
+/**
+ * # Usage
+ * Checks if two numbers are close enough to being equal using the given `range`, throwing an Error if they don't.
+ * 
+ * # Examples
+ * ```ts
+ * let a = 2 / 3
+ * let b = 0.67
+ * 
+ * Assert.close(val1, val2, 0.01)
+ * //This will throw
+ * // Assert.close(val1, val2, 0.001)
+ * ```
+ */
+export function close(val1: number, val2: number, range: number) {
+    let magnitude = Math.abs(val2 - val1);
+
+    if (magnitude > range) {
+        throw new AssertionError(`Assertion failed: expected difference: ${range}, actual difference: ${magnitude}\n` + 
+        `(val1 = ${val1}, val2 = ${val2})`);
+    }
 }

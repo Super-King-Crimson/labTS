@@ -4,9 +4,9 @@ export default function lerp(a: number, b: number, t: number): number {
 
 
 export function lerpN(a: number, b: number, t: number, n: number): number {
-    return a + lerp(
-        0, 
-        (b - a) * Math.pow(1 - t, n), 
+    return lerp(
+        b - ((b - a) * Math.pow(1 - t, n - 1)),
+        b,
         t
     );
     /* Yes, this works. Here's the proof:
@@ -21,11 +21,7 @@ export function lerpN(a: number, b: number, t: number, n: number): number {
     range = b - a
     newRange = range * (1 - t)^n //this is a standard exponential decay function: a * b^x
     
-    now that we have a range, we can just lerp that and add an a to put it in our specific range
-
-    let solution = a + lerp(0, newRange, t);
-
-    you could also add a to that range and run the normal lerp, your choice
+    now that we have a range, we have to move a forward so it's within that range, then lerp
     let newA = b - newRange;
     let solution = lerp(newA, b, t);
 
@@ -33,21 +29,19 @@ export function lerpN(a: number, b: number, t: number, n: number): number {
     let posA = 0;
     let posB = 20;
     let speed = 10; //this can now be assigned actual units AND a range: percent per second, [0, 100)
+    //since deltatime is the SECONDS since the last frame, we can say we want you to travel 10 percent the distance between A and B per second
     someObj.position = lerpN(posA, posB, speed, deltaTime)
     
     actually to make this function work with actual vector3s in unity all you need to do is:
     -create a vector from pointB pointing to pointA
-        Vector3 between = (posA - posB).Normalize();
     - create new start position for the lerp
-        Vector3 newPosA = posB + (between * Vector3.Distance(posA, posB) * Mathf.pow(1 - t, n))
+        Vector3 newPosA = posB + ((posA -  posB) * Mathf.pow(1 - t, n))
 
     //do the lerp
         return Vector3.Lerp(
             newPosA,
             posB,
             t
-        )
-    - add
-            
+        )   
     */
 }

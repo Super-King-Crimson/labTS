@@ -1,4 +1,3 @@
-import assert, * as Assert from "./LabTools/Assert";
 //Objective:
 //Each Hanoi has [numTowers] poles.
 //When initialized, the first pole has [n] rings placed on its first pole.
@@ -22,7 +21,7 @@ import assert, * as Assert from "./LabTools/Assert";
 type Tower = number[];
 
 class Hanoi {
-    private static numTowers = 3;    
+    private static numTowers = 3;     
 
     readonly towers: Tower[];    
     readonly n: number;    
@@ -36,7 +35,7 @@ class Hanoi {
                 
         this.n = n;
 
-        this.towers = Array.from({ length: 3 }, _ => Array());        
+        this.towers = Array.from({ length: Hanoi.numTowers }, _ => Array());        
 
         for (let i = 0; i < n; i++) {
             this.towers[0][i] = n - i;

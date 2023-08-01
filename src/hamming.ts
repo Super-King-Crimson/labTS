@@ -127,19 +127,19 @@ class Hamming {
             if (this.bits[i] === true) {
                 counts[4]++;
 
-                if ((i & 0b0001) === 0b0001) {
+                if (getBit(i, 0) === 1) {
                     counts[0]++;
                 }
 
-                if ((i & 0b0010) === 0b0010) {
+                if (getBit(i, 1) === 1) {
                     counts[1]++;
                 }
 
-                if ((i & 0b0100) === 0b0100) {
+                if (getBit(i, 2) === 1) {
                     counts[2]++;
                 }
 
-                if ((i & 0b1000) === 0b1000) {
+                if (getBit(i, 3) === 1) {
                     counts[3]++;
                 }
             }
@@ -148,7 +148,7 @@ class Hamming {
         return counts;
     }
 
-    fixError(): number | null {
+fixError(): number | null {
         let [iC, jC, kC, lC, totalC] = this.count();
 
         let [inStripes, inLast, inBands, inBottom, inAny] = [isOdd(iC), isOdd(jC), isOdd(kC), isOdd(lC), isOdd(totalC)];
@@ -191,6 +191,12 @@ class Hamming {
     }
 }
 
+let hamming = new Hamming([
+    0, 1, 1, 1,
+    0, 0, 1, 0,
+    0, 1, 1, 1,
+    0, 0, 0, 0,
+]);
 //converts to:
 /*
 [0 | 1 | 0 | 1]
@@ -198,12 +204,6 @@ class Hamming {
 [1 | 1 | 1 | 1]
 [0 | 0 | 0 | 0]
 */
-let hamming = new Hamming([
-    0, 1, 1, 1,
-    0, 0, 1, 0,
-    0, 1, 1, 1,
-    0, 0, 0, 0,
-]);
 
 hamming.flip(5);
 Assert.eq(5, hamming.fixError());
@@ -219,7 +219,7 @@ Assert.eq(1, hamming.fixError());
 //can detect up to 2 errors, throwing an error if it findsthem
 hamming.flip(8);
 hamming.flip(2);
-Assert.willThrow(() => hamming.fixError(), "error");
+Assert.willThrow(() => hamming.fixError());
 
 
 let hamming2 = new Hamming([
@@ -234,8 +234,8 @@ hamming2.flip(4);
 hamming2.flip(13);
 let result = hamming2.fixError();
 
-//will fail to detect any odd number of errors (and some even numbers of errors)
-//return an arbitrary number that is not (probably?) any of the bits you actually flipped
+//will fail to detect any odd number of errors greater than one (and some even numbers of errors)
+//return an arbitrary number that isn't any of the bits you actually flipped
 Assert.ne(result, 6);
 Assert.ne(result, 13);
 Assert.ne(result, 4);

@@ -178,24 +178,10 @@ export class LinkedList {
      */
     connect(other: LinkedList) {
         if (this.next) {
-            new Error("Cannot connect through an error");
+            throw new Error("Cannot connect through an error");
         } else {
             this.next = other;
         }
-    }
-
-    private reconnect(other: LinkedList) {
-        this.next = other;
-    }
-
-    *[Symbol.iterator]() {
-        let current: LinkedList | null = this;
-
-        while (current) {
-            yield current;
-
-            current = current.toNext();
-        }            
     }
 }
 
