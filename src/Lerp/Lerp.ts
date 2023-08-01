@@ -33,15 +33,14 @@ export function lerpN(a: number, b: number, t: number, n: number): number {
     someObj.position = lerpN(posA, posB, speed, deltaTime)
     
     actually to make this function work with actual vector3s in unity all you need to do is:
-    -create a vector from pointB pointing to pointA
-    - create new start position for the lerp
-        Vector3 newPosA = posB + ((posA -  posB) * Mathf.pow(1 - t, n))
+    {
+        Vector3 newPosA = posB + ((posA -  posB) * Mathf.pow(1 - t, n));
 
-    //do the lerp
         return Vector3.Lerp(
-            newPosA,
+            newPosA
             posB,
             t
-        )   
+        );
+    }
     */
 }
