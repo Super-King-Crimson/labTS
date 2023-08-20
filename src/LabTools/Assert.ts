@@ -1,6 +1,4 @@
 //god i HATE exports
-export default assert;
-
 export class AssertionError extends Error {
     constructor(msg: string) {
         super(msg);

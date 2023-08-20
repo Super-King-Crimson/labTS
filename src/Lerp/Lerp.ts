@@ -34,7 +34,7 @@ export function lerpN(a: number, b: number, t: number, n: number): number {
     
     actually to make this function work with actual vector3s in unity all you need to do is:
     {
-        Vector3 newPosA = posB + ((posA -  posB) * Mathf.pow(1 - t, n));
+        Vector3 newPosA = posB - ((posA -  posB) * Mathf.pow(1 - t, n));
 
         return Vector3.Lerp(
             newPosA
