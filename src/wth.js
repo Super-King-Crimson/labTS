@@ -6,4 +6,6 @@ class Okay {
     }
 }
 
+let ok = new Okay(1, "fourteen", new Okay(true));
+
 console.log(ok);
